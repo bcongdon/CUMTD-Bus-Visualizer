@@ -1,22 +1,23 @@
 from app import app
 import os
+import json
 
 import requests
-
-key = ""
 
 @app.route('/')
 @app.route('/index')
 def index():
-    with app.open_resource("static/api_key") as f:
-        key = f.read()
+    key = os.environ.get('API_KEY',"")
+    if key == "":
+        return "api error"
 
     req = requests.get("https://developer.cumtd.com/api/v2.2/json/GetVehicles?key=" + key)
     data = req.json()
 
+    ret = ""
     for vehicle in data['vehicles']:
-        print "ID: " + vehicle['vehicle_id']
-        print "Location: " + str(vehicle['location']['lat']) + "," + str(vehicle['location']['lon'])
-        print
+        ret += "ID: " + vehicle['vehicle_id'] + " "
+        ret += "Location: " + str(vehicle['location']['lat']) + "," + str(vehicle['location']['lon'])
+        ret += "<br>"
 
-    return str(data)
+    return ret
