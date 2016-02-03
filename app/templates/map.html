@@ -20,12 +20,21 @@ function initMap() {
   });
 
 {% for x in points %}
-var marker = new google.maps.Marker({
-    position: {{ x }},
+  var infowindow_{{x['vehicle_id']}} = new google.maps.InfoWindow({
+    content: "{{x['trip']['trip_headsign'] if 'trip' in x else "ERROR"}}",
+  });
+  var marker_{{x['vehicle_id']}} = new google.maps.Marker({
+    position: {lat: {{x['location']['lat']}}, lng: {{x['location']['lon']}}},
     map: map,
     title: 'Hello World!'
   });
-  marker.setMap(map);
+  marker_{{x['vehicle_id']}}.setMap(map);
+  marker_{{x['vehicle_id']}}.addListener('mouseover', function() {
+    infowindow_{{x['vehicle_id']}}.open(map, marker_{{x['vehicle_id']}});
+  });
+  marker_{{x['vehicle_id']}}.addListener('mouseout', function() {
+    infowindow_{{x['vehicle_id']}}.close();
+});
 {% endfor %}
   
 
