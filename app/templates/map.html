@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      html, body { height: 100%; margin: 0; padding: 0; }
+      #map { height: 100%; }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script type="text/javascript">
+
+var map;
+function initMap() {
+  var myLatLng = {lat: {{lat}}, lng: {{lon}}};
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 14,
+    center: myLatLng
+  });
+
+{% for x in points %}
+var marker = new google.maps.Marker({
+    position: {{ x }},
+    map: map,
+    title: 'Hello World!'
+  });
+  marker.setMap(map);
+{% endfor %}
+  
+
+}
+
+    </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqooE8PCBSn-IkeQ37d3XHqMLwj0ULBqg&callback=initMap">
+    </script>
+  </body>
+</html>
