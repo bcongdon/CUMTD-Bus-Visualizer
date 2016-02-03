@@ -21,7 +21,7 @@ function initMap() {
 
 {% for x in points %}
   var infowindow_{{x['vehicle_id']}} = new google.maps.InfoWindow({
-    content: "{{x['trip']['trip_headsign'] if 'trip' in x else "ERROR"}}",
+    content: "{{x['trip']['route_id'] if 'trip' in x else "ERROR"}} " + "{{x['trip']['direction'] if x['trip']['direction'] != "N/A"}}",
   });
   var marker_{{x['vehicle_id']}} = new google.maps.Marker({
     position: {lat: {{x['location']['lat']}}, lng: {{x['location']['lon']}}},
