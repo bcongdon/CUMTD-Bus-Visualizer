@@ -10,14 +10,19 @@ from flask import render_template
 @app.route('/index')
 def index():
     data = get_busses()
-
-    return render_template("map.html",points = data[0], lon = data[1], lat = data[2])
+    if data is not None:
+        return render_template("map.html",points = data[0], lon = data[1], lat = data[2])
+    else:
+        return "Error"
 
 
 def get_busses():
+    success = True
     key = os.environ.get('API_KEY',"")
     if key == "":
-        return "api error"
+        return
+        success = False
+
 
     req = requests.get("https://developer.cumtd.com/api/v2.2/json/GetVehicles?key=" + key)
     data = req.json()
@@ -27,6 +32,9 @@ def get_busses():
     avg_lon = 0
     act_len = 0
     for vehicle in data['vehicles']:
+        if not 'trip' in vehicle:
+            success = False
+            return "JSON error"
         #ret.append("{lat: " + str(vehicle['location']['lat']) + ", lng: " + str(vehicle['location']['lon']) + "}")
         ret.append(vehicle)
         #print vehicle
@@ -39,5 +47,4 @@ def get_busses():
         #print (vehicle['location']['lon'], vehicle['location']['lat'])
     avg_lat /= act_len
     avg_lon /= act_len
-    #print(avg_lon, avg_lat)
-    return (ret,avg_lon,avg_lat)
+    return (ret,avg_lon,avg_lat,True)
