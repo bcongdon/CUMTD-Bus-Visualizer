@@ -17,34 +17,32 @@ def index():
 
 
 def get_busses():
-    success = True
     key = os.environ.get('API_KEY',"")
     if key == "":
+        print "Could not load API_KEY"
         return
-        success = False
-
 
     req = requests.get("https://developer.cumtd.com/api/v2.2/json/GetVehicles?key=" + key)
     data = req.json()
 
     ret = list()
-    avg_lat = 0
-    avg_lon = 0
-    act_len = 0
+    avg_lat, avg_lon, act_len = 0, 0, 0
+
+    if not 'vehicles' in data:
+        print "Data not in expected format"
+        return
+
     for vehicle in data['vehicles']:
         if not 'trip' in vehicle:
             success = False
             return "JSON error"
-        #ret.append("{lat: " + str(vehicle['location']['lat']) + ", lng: " + str(vehicle['location']['lon']) + "}")
         ret.append(vehicle)
-        #print vehicle
         if abs(vehicle['location']['lon']) > 0.1: 
             avg_lon += vehicle['location']['lon']
             avg_lat += vehicle['location']['lat']
             act_len += 1
         else:
             print('caught')
-        #print (vehicle['location']['lon'], vehicle['location']['lat'])
     avg_lat /= act_len
     avg_lon /= act_len
     return (ret,avg_lon,avg_lat,True)

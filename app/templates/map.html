@@ -17,24 +17,24 @@
           zoom: 14,
           center: myLatLng
         });
-      {% for x in points %}
-        var infowindow_{{x['vehicle_id']}} = new google.maps.InfoWindow({
-          content: "{{x['trip']['route_id'] if 'trip' in x else "ERROR"}} " + "{{x['trip']['direction'] if x['trip']['direction'] != "N/A"}}",
-        });
-        var marker_{{x['vehicle_id']}} = new google.maps.Marker({
-          position: {lat: {{x['location']['lat']}}, lng: {{x['location']['lon']}}},
-          map: map,
-          title: 'Hello World!'
-        });
-        marker_{{x['vehicle_id']}}.setMap(map);
-        marker_{{x['vehicle_id']}}.addListener('mouseover', function() {
-          infowindow_{{x['vehicle_id']}}.open(map, marker_{{x['vehicle_id']}});
-        });
-        marker_{{x['vehicle_id']}}.addListener('mouseout', function() {
-          infowindow_{{x['vehicle_id']}}.close();
-        });
-      {% endfor %}
-    }
+        {% for x in points %}
+          var infowindow_{{x['vehicle_id']}} = new google.maps.InfoWindow({
+            content: "{{x['trip']['route_id'] if 'trip' in x else "ERROR"}} " + "{{x['trip']['direction'] if x['trip']['direction'] != "N/A"}}",
+          });
+          var marker_{{x['vehicle_id']}} = new google.maps.Marker({
+            position: {lat: {{x['location']['lat']}}, lng: {{x['location']['lon']}}},
+            map: map,
+            title: 'Hello World!'
+          });
+          marker_{{x['vehicle_id']}}.setMap(map);
+          marker_{{x['vehicle_id']}}.addListener('mouseover', function() {
+            infowindow_{{x['vehicle_id']}}.open(map, marker_{{x['vehicle_id']}});
+          });
+          marker_{{x['vehicle_id']}}.addListener('mouseout', function() {
+            infowindow_{{x['vehicle_id']}}.close();
+          });
+        {% endfor %}
+      }
     </script>
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqooE8PCBSn-IkeQ37d3XHqMLwj0ULBqg&callback=initMap">
