@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style type="text/css">
-      html, body { height: 100%; margin: 0; padding: 0; }
-      #map { height: 100%; }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>CUMTD Bus Visualizer</title>
+
+    <!-- Refresh Every 60 seconds -->
+    <meta http-equiv="refresh" content="60" >
+
   </head>
   <body>
+    <div id="myTextDiv" style="color: white; position: absolute;">
+      <h1>Hello World</h1>
+    </div>
     <div id="map"></div>
     <script type="text/javascript">
       var map;
@@ -17,6 +23,15 @@
           zoom: 14,
           center: myLatLng
         });
+
+        var myTitle = document.createElement('h1');
+        myTitle.style.color = 'black';
+        myTitle.innerHTML = 'CUMTD Bus Visualizer';
+        var myTextDiv = document.createElement('div');
+        myTextDiv.appendChild(myTitle);
+
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(myTextDiv);
+        
         {% for x in points %}
           var infowindow_{{x['vehicle_id']}} = new google.maps.InfoWindow({
             content: "{{x['trip']['route_id'] if 'trip' in x else "ERROR"}} " + "{{x['trip']['direction'] if x['trip']['direction'] != "N/A"}}",
@@ -39,5 +54,6 @@
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqooE8PCBSn-IkeQ37d3XHqMLwj0ULBqg&callback=initMap">
     </script>
+    
   </body>
 </html>
