@@ -24,13 +24,20 @@
           center: myLatLng
         });
 
-        var myTitle = document.createElement('h1');
-        myTitle.style.color = 'black';
-        myTitle.innerHTML = 'CUMTD Bus Visualizer';
-        var myTextDiv = document.createElement('div');
-        myTextDiv.appendChild(myTitle);
+        var title = document.createElement('h1');
+        title.style.color = 'black';
+        title.innerHTML = 'CUMTD Bus Visualizer';
+        var titleDiv = document.createElement('div');
+        titleDiv.appendChild(title);
 
-        map.controls[google.maps.ControlPosition.TOP_CENTER].push(myTextDiv);
+        var activeBusses = document.createElement('h2');
+        activeBusses.style.color = 'black';
+        activeBusses.innerHTML = '{{count}} busses active';
+        var activeBussesDiv = document.createElement('div');
+        activeBussesDiv.appendChild(activeBusses);
+
+        map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(activeBussesDiv);
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(titleDiv);
         
         {% for x in points %}
           var infowindow_{{x['vehicle_id']}} = new google.maps.InfoWindow({

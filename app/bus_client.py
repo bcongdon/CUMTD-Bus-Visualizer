@@ -35,6 +35,7 @@ class BusClient():
 	        print "Data not in expected format"
 	        return
 
+	    count = 0
 	    for vehicle in data['vehicles']:
 	        if not 'trip' in vehicle:
 	            success = False
@@ -44,8 +45,9 @@ class BusClient():
 	            avg_lon += vehicle['location']['lon']
 	            avg_lat += vehicle['location']['lat']
 	            act_len += 1
+	            count += 1
 	        else:
 	            print('caught')
 	    avg_lat /= act_len
 	    avg_lon /= act_len
-	    return (ret,avg_lon,avg_lat,True)
+	    return (ret,avg_lon,avg_lat,count)

@@ -13,7 +13,7 @@ def index():
     global client
     data = client.get_busses()
     if data is not None:
-        return render_template("map.html",points = data[0], lon = data[1], lat = data[2])
+        return render_template("map.html",points = data[0], lon = data[1], lat = data[2], count = data[3])
     else:
         return "Error"
 
