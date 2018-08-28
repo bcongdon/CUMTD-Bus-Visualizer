@@ -1,6 +1,10 @@
 # CUMTD Bus Visualizer
   >A small Flask app that maps out the current locations of CUMTD's busses.
   
+Live Demo: https://cumtd-bus-visualizer.herokuapp.com/
+
+Data collected from the [CUMTD](https://mtd.org/) (Champaign-Urbana Mass Transit District) API
+
 ## Usage
 1. Run the following set of commands to grab the repo and install the Python dependencies.
   
